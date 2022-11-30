@@ -1,0 +1,15 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "singleQuote": true,
+    "semi": false,
+    "overrides": [
+      {
+        "files": ["*.json", "*.html", "*.xml"],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
+  }
+  

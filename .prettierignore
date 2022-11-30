@@ -1,0 +1,4 @@
+.prettierrc
+webpack/
+node_modules/
+dist/
