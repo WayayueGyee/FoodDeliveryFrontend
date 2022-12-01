@@ -3,6 +3,7 @@
     "useTabs": false,
     "singleQuote": true,
     "semi": false,
+    "printWidth": 100,
     "overrides": [
       {
         "files": ["*.tsx", "*.jsx", "*.json", "*.html", "*.xml"],

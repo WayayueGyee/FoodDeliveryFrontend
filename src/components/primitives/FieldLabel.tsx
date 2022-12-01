@@ -1,6 +1,6 @@
 import React from 'react'
 
-type FieldLabelProps = { name: string; children: React.ReactNode }
+type FieldLabelProps = { name?: string; children?: React.ReactNode }
 
 export default function FieldLabel({ name, children }: FieldLabelProps) {
   return (
