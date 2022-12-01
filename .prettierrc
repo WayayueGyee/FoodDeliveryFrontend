@@ -5,7 +5,7 @@
     "semi": false,
     "overrides": [
       {
-        "files": ["*.json", "*.html", "*.xml"],
+        "files": ["*.tsx", "*.jsx", "*.json", "*.html", "*.xml"],
         "options": {
           "tabWidth": 2
         }

@@ -2,3 +2,4 @@
 /dist
 tailwind.config.cjs
 postcss.config.cjs
+*.html

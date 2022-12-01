@@ -30,7 +30,9 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-inferrable-types": "warn"
+    "@typescript-eslint/no-inferrable-types": "warn",
+    "prefer-const": "warn",
+    "prettier/prettier": "warn"
   },
   "settings": {
     "react": {
