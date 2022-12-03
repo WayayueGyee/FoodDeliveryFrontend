@@ -3,7 +3,7 @@ type ButtonStyle = 'primary' | 'secondary' | 'light' | 'dark' | 'link'
 type ButtonProps = {
   type?: ButtonTypeAttribute
   style?: ButtonStyle
-  children?: React.ReactNode
+  children?: React.ReactNode | React.ReactNode[]
 }
 
 const buttonStylesMap: Record<ButtonStyle, string> = {
