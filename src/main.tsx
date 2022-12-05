@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import './index.css'
 import ErrorPage from './ErrorPage'
-import ReadyNavBar from './components/navbar/ReadyNavBar'
+import NavBar from './components/navbar/NavBar'
 
 // https://reactrouter.com/en/main/start/tutorial#the-contact-route-ui
 const router = createBrowserRouter([
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'navbar',
-    element: <ReadyNavBar />,
+    element: <NavBar />,
   },
 ])
 
