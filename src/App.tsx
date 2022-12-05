@@ -3,7 +3,7 @@ import './App.css'
 import Button from './components/primitives/Button'
 import InputField from './components/primitives/InputField'
 import Select from './components/primitives/Select'
-import RegistraionPage from './components/authentication/RegistraionPage'
+import RegistrationPage from './components/authentication/RegistrationPage'
 import Card from './components/primitives/Card'
 import LoginPage from './components/authentication/LoginPage'
 import DatePicker from './components/primitives/DatePicker'
@@ -18,7 +18,7 @@ function App() {
     // </div>
 
     <>
-      <RegistraionPage></RegistraionPage>
+      <RegistrationPage></RegistrationPage>
       <LoginPage></LoginPage>
     </>
 

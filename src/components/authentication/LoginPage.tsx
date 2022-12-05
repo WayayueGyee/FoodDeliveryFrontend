@@ -32,7 +32,7 @@ export default function LoginPage() {
                   <InputField
                     type="password"
                     name="current-password"
-                    id="current-password"
+                    id="log-current-password"
                     autoComplete="current-password"
                     labelText="Password"
                     placeholder="***************"

@@ -4,12 +4,12 @@ import DatePicker from '../primitives/DatePicker'
 import FieldLabel from '../primitives/FieldLabel'
 import InputField from '../primitives/InputField'
 import Select from '../primitives/Select'
+import { Link } from 'react-router-dom'
 
-export default function RegistraionPage() {
-  
-
+export default function RegistrationPage() {
   return (
     <>
+      <Link to={'navbar'}>AAAAAAAAAAAAAAAAAA</Link>
       <div className="mt-10 sm:mt-0">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="mt-5 md:col-span-2 md:mt-0">
@@ -61,27 +61,6 @@ export default function RegistraionPage() {
                       </div>
                     </div>
 
-                    <div className="col-span-4 sm:col-span-4">
-                      <label
-                        htmlFor="company-website"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Website
-                      </label>
-                      <div className="mt-1 flex rounded-md shadow-sm">
-                        <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                          http://
-                        </span>
-                        <input
-                          type="text"
-                          name="company-website"
-                          id="company-website"
-                          className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          placeholder="www.example.com"
-                        />
-                      </div>
-                    </div>
-
                     <div className="col-span-6 sm:col-span-4">
                       <InputField
                         type="text"
@@ -96,7 +75,7 @@ export default function RegistraionPage() {
                       <InputField
                         type="password"
                         name="current-password"
-                        id="current-password"
+                        id="reg-current-password"
                         autoComplete="current-password"
                         labelText="Password"
                         placeholder="***************"
