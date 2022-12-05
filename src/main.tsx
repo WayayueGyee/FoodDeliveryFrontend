@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
-import './index.css'
-import ErrorPage from './ErrorPage'
+import LoginPage from './components/authentication/LoginPage'
+import RegistrationPage from './components/authentication/RegistrationPage'
 import NavBar from './components/navbar/NavBar'
+import ErrorPage from './ErrorPage'
+import './index.css'
 
 // https://reactrouter.com/en/main/start/tutorial#the-contact-route-ui
 const router = createBrowserRouter([
@@ -14,8 +16,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: 'navbar',
-    element: <NavBar />,
+    path: 'registration',
+    element: <RegistrationPage />,
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
 ])
 

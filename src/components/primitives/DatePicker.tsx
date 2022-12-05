@@ -12,6 +12,8 @@ import {
 import InputField from './InputField'
 import FieldLabel from './FieldLabel'
 import { CalendarIcon } from '@heroicons/react/24/outline'
+import ArrowRoundedLeft from '../../icons/ArrowRoundedLeft'
+import ArrowRoundedRight from '../../icons/ArrowRoundedRight'
 
 type DatepickerType = 'date' | 'month' | 'year'
 
@@ -131,19 +133,7 @@ export default function DatePicker() {
                   className="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
                   onClick={decrement}
                 >
-                  <svg
-                    className="h-6 w-6 text-gray-500 inline-flex"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
+                  <ArrowRoundedLeft className="h-6 w-6 text-gray-500 inline-flex" />
                 </button>
               </div>
               {type === 'date' && (
@@ -166,19 +156,7 @@ export default function DatePicker() {
                   className="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
                   onClick={increment}
                 >
-                  <svg
-                    className="h-6 w-6 text-gray-500 inline-flex"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <ArrowRoundedRight className="h-6 w-6 text-gray-500 inline-flex" />
                 </button>
               </div>
             </div>
@@ -242,14 +220,6 @@ export default function DatePicker() {
                   ))}
               </div>
             )}{' '}
-            {/* {type === 'year' && (
-                      <Datepicker
-                        datepickerHeaderDate={datepickerHeaderDate}
-                        selectedDate={selectedDate}
-                        setSelectedDate={setSelectedDate}
-                        closeDatepicker={() => setShowDatepicker(false)}
-                      />
-                    )} */}
           </div>
         )}
       </div>
