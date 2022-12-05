@@ -15,7 +15,7 @@ import { CalendarIcon } from '@heroicons/react/24/outline'
 
 type DatepickerType = 'date' | 'month' | 'year'
 
-export default function MyDatePicker() {
+export default function DatePicker() {
   const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const [dayCount, setDayCount] = useState<Array<number>>([])
   const [blankDays, setBlankDays] = useState<Array<number>>([])
@@ -102,7 +102,7 @@ export default function MyDatePicker() {
   }, [datepickerHeaderDate])
 
   return (
-    <div className="mb-5 w-64">
+    <div>
       <FieldLabel htmlFor="date-input">Select Date</FieldLabel>
       <div className="relative">
         {/* <InputField type="hidden" name="date" /> */}

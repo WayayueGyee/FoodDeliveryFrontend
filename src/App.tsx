@@ -17,15 +17,15 @@ function App() {
     //   <Button style="primary">Coooooolest text ever!</Button>
     // </div>
 
-    // <>
-    //   <RegistraionPage></RegistraionPage>
-    //   <LoginPage></LoginPage>
-    // </>
+    <>
+      <RegistraionPage></RegistraionPage>
+      <LoginPage></LoginPage>
+    </>
 
-    <div>
-      <DatePicker></DatePicker>
-      <InputField type="text" name="some-input" labelText="Some Input"></InputField>
-    </div>
+    // <div>
+    //   <DatePicker></DatePicker>
+    //   <InputField type="text" name="some-input" labelText="Some Input"></InputField>
+    // </div>
   )
 }
 
