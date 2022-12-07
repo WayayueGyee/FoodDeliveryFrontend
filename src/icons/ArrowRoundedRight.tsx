@@ -4,7 +4,7 @@ export default function ArrowRoundedRight({ title, titleId, ...props }: IconProp
   return (
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-labelledby={titleId} {...props}>
       {title && <title id={titleId}>{title}</title>}
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
     </svg>
   )
 }

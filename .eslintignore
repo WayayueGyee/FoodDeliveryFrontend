@@ -2,4 +2,5 @@
 /dist
 tailwind.config.cjs
 postcss.config.cjs
+vite.config.ts
 *.html

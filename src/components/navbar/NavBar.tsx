@@ -1,16 +1,17 @@
-import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Fragment } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import { classNames } from '../../utils/class-names'
+import Dropdown from '../primitives/dropdown/Dropdown'
+import DropdownLink from '../primitives/dropdown/DropdownLink'
+import NavBarLink from './NavBarLink'
 
-const navigation = [
-  { name: 'Меню', href: '#', current: true },
-  { name: 'Заказы', href: '#', current: false },
-  { name: 'Корзина', href: '#', current: false },
+const items = [
+  { name: 'Меню', to: '/api/dish', current: true },
+  { name: 'Заказы', to: '/api/order', current: false },
+  { name: 'Корзина', to: '/api/basket', current: false },
 ]
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function NavBar() {
   return (
@@ -38,21 +39,11 @@ export default function NavBar() {
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:items-center">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
+                    {items.map((item) => (
                       // TODO: change to <Link>
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
+                      <NavBarLink key={item.name} to={item.to}>
                         {item.name}
-                      </a>
+                      </NavBarLink>
                     ))}
                   </div>
                 </div>
@@ -78,57 +69,11 @@ export default function NavBar() {
                       />
                     </Menu.Button>
                   </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
+
+                  <Dropdown>
+                    <DropdownLink to="account/profile">Профиль</DropdownLink>
+                    <DropdownLink to="account/logout">Выйти</DropdownLink>
+                  </Dropdown>
                 </Menu>
               </div>
             </div>
@@ -136,21 +81,23 @@ export default function NavBar() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
+              {items.map((item) => (
+                <NavBarLink key={item.name} to={item.to}>
+                  <Disclosure.Button
+                    as="span"
+                    className="block rounded-md text-base font-medium"
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                </NavBarLink>
+                //   <Disclosure.Button
+                //   as="a"
+                //   key={item.name}
+                //   className="block px-3 py-2 rounded-md text-base font-medium"
+                // >
+                //   <NavBarLink to={item.to}>{item.name}</NavBarLink>
+                // </Disclosure.Button>
               ))}
             </div>
           </Disclosure.Panel>

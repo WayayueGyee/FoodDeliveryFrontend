@@ -4,7 +4,6 @@ import DatePicker from '../primitives/DatePicker'
 import FieldLabel from '../primitives/FieldLabel'
 import InputField from '../primitives/InputField'
 import Select from '../primitives/Select'
-import { Link } from 'react-router-dom'
 
 export default function RegistrationPage() {
   return (

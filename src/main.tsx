@@ -1,27 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
 import App from './App'
 import LoginPage from './components/authentication/LoginPage'
 import RegistrationPage from './components/authentication/RegistrationPage'
-import NavBar from './components/navbar/NavBar'
 import ErrorPage from './ErrorPage'
 import './index.css'
 
 // https://reactrouter.com/en/main/start/tutorial#the-contact-route-ui
 const router = createBrowserRouter([
+  { path: '/', element: <Navigate to={'/api'} />, errorElement: <ErrorPage /> },
   {
-    path: '/',
+    path: '/api',
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: 'registration',
-    element: <RegistrationPage />,
-  },
-  {
-    path: 'login',
-    element: <LoginPage />,
+    children: [
+      {
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'dish',
+            element: (
+              <div>
+                <Outlet />
+              </div>
+            ),
+          },
+          {
+            path: 'basket',
+          },
+          {
+            path: 'order',
+          },
+          {
+            path: 'account/register',
+            element: <RegistrationPage />,
+          },
+          {
+            path: 'account/login',
+            element: <LoginPage />,
+          },
+        ],
+      },
+    ],
   },
 ])
 
