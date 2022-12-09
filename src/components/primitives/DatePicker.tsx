@@ -12,8 +12,8 @@ import {
 import InputField from './InputField'
 import FieldLabel from './FieldLabel'
 import { CalendarIcon } from '@heroicons/react/24/outline'
-import ArrowRoundedLeft from '../../icons/ArrowRoundedLeft'
-import ArrowRoundedRight from '../../icons/ArrowRoundedRight'
+import ArrowRoundedLeft from '../icons/ArrowRoundedLeft'
+import ArrowRoundedRight from '../icons/ArrowRoundedRight'
 
 type DatepickerType = 'date' | 'month' | 'year'
 

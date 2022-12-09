@@ -1,6 +1,6 @@
 import { Menu } from '@headlessui/react'
 import { Link, LinkProps } from 'react-router-dom'
-import { classNames } from '../../../utils/class-names'
+import { classNames } from '../../../utils/ClassNames'
 
 export default function DropdownLink({ to, children, ...props }: LinkProps) {
   return (

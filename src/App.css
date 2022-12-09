@@ -1,5 +1,6 @@
+/* TODO: добавить расчёт отступа */
 #root {
-  margin: 0 auto;
+  margin: 64px auto 0;
 }
 
 .logo {

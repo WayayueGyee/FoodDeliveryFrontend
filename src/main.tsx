@@ -1,17 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import App from './App'
-import LoginPage from './components/authentication/LoginPage'
-import RegistrationPage from './components/authentication/RegistrationPage'
+import LoginPage from './components/auth/LoginPage'
+import RegistrationPage from './components/auth/RegistrationPage'
 import ErrorPage from './ErrorPage'
 import './index.css'
 
-// https://reactrouter.com/en/main/start/tutorial#the-contact-route-ui
 const router = createBrowserRouter([
-  { path: '/', element: <Navigate to={'/api'} />, errorElement: <ErrorPage /> },
   {
-    path: '/api',
+    path: '/',
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
