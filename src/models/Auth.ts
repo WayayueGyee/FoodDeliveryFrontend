@@ -3,10 +3,7 @@ export interface LoginCredsDTO {
     password: string
 }
 
-export enum Gender {
-    Male,
-    Female,
-}
+export type Gender = 'Male' | 'Female'
 
 export interface UserRegisterDTO {
     // minLength: 1

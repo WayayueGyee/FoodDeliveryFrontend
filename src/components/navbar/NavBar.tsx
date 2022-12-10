@@ -10,6 +10,10 @@ const items = [
   { name: 'Корзина', to: 'basket', current: false },
 ]
 
+// export function navBarLoader() {
+//   TokenRepository.
+// }
+
 export default function NavBar() {
   return (
     <header className="w-screen fixed top-0 left-0">
