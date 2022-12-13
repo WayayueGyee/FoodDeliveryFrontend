@@ -1,3 +1,4 @@
+import DarkBackground from 'components/primitives/DarkBackground'
 import Input from 'components/primitives/Input'
 import localforage from 'localforage'
 import { TokenResponse, UserRegisterDTO } from 'models/Auth'
@@ -12,8 +13,6 @@ import DatePicker from '../primitives/DatePicker'
 import FieldLabel from '../primitives/FieldLabel'
 import LabeledInput from '../primitives/LabeledInput'
 import Select from '../primitives/Select'
-import foodBack from 'assets/food-background.jpg'
-import DarkBackground from 'components/primitives/DarkBackground'
 
 export async function registrationAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()

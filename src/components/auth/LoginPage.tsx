@@ -1,3 +1,4 @@
+import DarkBackground from 'components/primitives/DarkBackground'
 import localforage from 'localforage'
 import { LoginCredsDTO, TokenResponse } from 'models/Auth'
 import { redirect, useFetcher } from 'react-router-dom'
@@ -7,8 +8,6 @@ import nameOf from 'utils/NameOf'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
 import LabeledInput from '../primitives/LabeledInput'
-import foodBack from '../../assets/food-background.jpg'
-import DarkBackground from 'components/primitives/DarkBackground'
 
 export async function loginAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()
