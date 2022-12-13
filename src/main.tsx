@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import App from './App'
-import LoginPage from './components/auth/LoginPage'
-import RegistrationPage from './components/auth/RegistrationPage'
+import LoginPage, { loginAction } from 'components/auth/LoginPage'
+import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
 import ErrorPage from './ErrorPage'
 import './index.css'
 
@@ -33,10 +33,12 @@ const router = createBrowserRouter([
           {
             path: 'account/register',
             element: <RegistrationPage />,
+            action: registrationAction,
           },
           {
             path: 'account/login',
             element: <LoginPage />,
+            action: loginAction,
           },
         ],
       },

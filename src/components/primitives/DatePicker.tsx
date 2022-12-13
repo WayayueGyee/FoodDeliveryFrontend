@@ -9,7 +9,7 @@ import {
   getDaysInMonth,
   getDay,
 } from 'date-fns'
-import InputField from './InputField'
+import LabeledInput from './LabeledInput'
 import FieldLabel from './FieldLabel'
 import { CalendarIcon } from '@heroicons/react/24/outline'
 import ArrowRoundedLeft from '../icons/ArrowRoundedLeft'
@@ -108,7 +108,7 @@ export default function DatePicker() {
       <FieldLabel htmlFor="date-input">Select Date</FieldLabel>
       <div className="relative">
         {/* <InputField type="hidden" name="date" /> */}
-        <InputField
+        <LabeledInput
           type="text"
           readOnly
           // className="cursor-pointer w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"

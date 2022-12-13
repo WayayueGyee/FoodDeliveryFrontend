@@ -4,7 +4,7 @@ import log from 'utils/Log'
 import nameOf from 'utils/NameOf'
 
 export default class TokenService {
-    private static resolveTokenPropName(): string {
+    public static resolveTokenPropName(): string {
         return nameOf((token: TokenResponse) => token.token)
     }
 

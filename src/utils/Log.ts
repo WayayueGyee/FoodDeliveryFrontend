@@ -2,7 +2,7 @@ const isProd = import.meta.env.PROD
 
 type LogType = 'log' | 'info' | 'warning' | 'error'
 
-export default function log(message: string, type: LogType = 'log') {
+export default function log(message?: unknown, type: LogType = 'log') {
     if (isProd) return null
 
     switch (type) {

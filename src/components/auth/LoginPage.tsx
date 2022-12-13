@@ -1,8 +1,42 @@
+import localforage from 'localforage'
+import { LoginCredsDTO, TokenResponse } from 'models/Auth'
+import { redirect, useFetcher } from 'react-router-dom'
+import AuthService from 'services/AuthService'
+import TokenService from 'services/TokenService'
+import nameOf from 'utils/NameOf'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
-import InputField from '../primitives/InputField'
+import LabeledInput from '../primitives/LabeledInput'
+
+export async function loginAction({ request }: { request: Request }) {
+  const formData: FormData = await request.formData()
+  // TODO: add checking object type (optional 'cause type can be checked inside of component)
+  const loginDto = Object.fromEntries(formData) as unknown as LoginCredsDTO
+  console.log('LOGIN_DTO: ', loginDto)
+
+  const response = await AuthService.login(loginDto)
+
+  if (response.status >= 200 && response.status <= 299) {
+    const data = response.data as TokenResponse
+    await localforage.setItem(TokenService.resolveTokenPropName(), data.token)
+    await localforage.setItem(
+      nameOf((ud: LoginCredsDTO) => ud.email),
+      loginDto.email
+    )
+
+    return redirect('/dish')
+  }
+
+  return new Response('', {
+    status: 500,
+    statusText: 'Чёто хуйню высрал',
+  })
+}
 
 export default function LoginPage() {
+  const fetcher = useFetcher()
+  // const fd = useActionData()
+
   return (
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -15,11 +49,11 @@ export default function LoginPage() {
               </p>
             </div>
           </div>
-          <form action="#" method="POST">
+          <fetcher.Form action="#" method="post">
             <div className="bg-white px-4 py-5 sm:p-6">
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-4">
-                  <InputField
+                  <LabeledInput
                     type="email"
                     name="email"
                     id="email"
@@ -29,11 +63,11 @@ export default function LoginPage() {
                 </div>
 
                 <div className="col-span-6 sm:col-span-4">
-                  <InputField
+                  <LabeledInput
                     type="password"
-                    name="current-password"
-                    id="log-current-password"
-                    autoComplete="current-password"
+                    name="password"
+                    id="password"
+                    autoComplete="password"
                     labelText="Password"
                     placeholder="***************"
                   />
@@ -45,7 +79,7 @@ export default function LoginPage() {
                 Login
               </Button>
             </div>
-          </form>
+          </fetcher.Form>
         </Card>
       </div>
     </div>

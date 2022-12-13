@@ -1,42 +1,36 @@
 import 'App.css'
 import NavBar from 'components/navbar/NavBar'
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import AuthService from 'services/AuthService'
 
 interface UserInfoType {
-  token: string
-  email: string
+  token: string | null
+  email: string | null
+  setToken: React.Dispatch<React.SetStateAction<string | null>>
+  setEmail: React.Dispatch<React.SetStateAction<string | null>>
 }
 
-const UserInfoContext = React.createContext({
-  email: 'basic@mail.com',
-  // imgLink:
-  //   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-})
-
-// function UserInfoProvider() {
-//   return
-// }
+export const UserInfoContext = React.createContext<UserInfoType | null>(null)
 
 function App() {
+  const [token, setToken] = useState<string | null>(null)
+  const [email, setEmail] = useState<string | null>(null)
+
   return (
     <>
-      <NavBar />
-      <button
-        onClick={() => {
-          AuthService.login('https://food-delivery.kreosoft.ru/api/account/login', {
-            email: 'user1@example.com',
-            password: 'string1',
-          })
+      <UserInfoContext.Provider
+        value={{
+          token,
+          email,
+          setToken,
+          setEmail,
         }}
       >
-        TEEEEXT!
-      </button>
-      <div style={{ backgroundColor: 'violet', height: 1000 + 'px' }}></div>
-      <div>
-        <Outlet />
-      </div>
+        <NavBar />
+        <div>
+          <Outlet />
+        </div>
+      </UserInfoContext.Provider>
     </>
   )
 }
