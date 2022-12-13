@@ -7,6 +7,8 @@ import nameOf from 'utils/NameOf'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
 import LabeledInput from '../primitives/LabeledInput'
+import foodBack from '../../assets/food-background.jpg'
+import DarkBackground from 'components/primitives/DarkBackground'
 
 export async function loginAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()
@@ -38,50 +40,54 @@ export default function LoginPage() {
   // const fd = useActionData()
 
   return (
-    <div className="mt-10 sm:mt-0">
-      <div className="md:grid md:grid-cols-3 md:gap-6">
-        <Card>
-          <div className="md:col-span-1 bg-gray-50 px-4 py-3 rounded-md">
-            <div className="px-4 sm:px-0">
+    // TODO: Change visuals, make horizontal center align
+    <DarkBackground>
+      <div
+        style={{ height: 'calc(100vh - 64px)' }}
+        className="flex items-center mt-10 mx-2 sm:mt-0 sm:mx-4"
+      >
+        <div className="md:grid md:grid-cols-6 w-screen md:gap-6">
+          <Card>
+            <div className="bg-gray-50 px-4 py-3 rounded-md">
               <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
               <p className="mt-1 text-sm text-gray-600">
                 Use a permanent address where you can receive mail.
               </p>
             </div>
-          </div>
-          <fetcher.Form action="#" method="post">
-            <div className="bg-white px-4 py-5 sm:p-6">
-              <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6 sm:col-span-4">
-                  <LabeledInput
-                    type="email"
-                    name="email"
-                    id="email"
-                    autoComplete="email"
-                    labelText="Email"
-                  />
-                </div>
+            <fetcher.Form action="#" method="post">
+              <div className="bg-white px-4 py-5 sm:p-6">
+                <div className="grid grid-cols-6 gap-6">
+                  <div className="col-span-6 md:col-span-4">
+                    <LabeledInput
+                      type="email"
+                      name="email"
+                      id="email"
+                      autoComplete="email"
+                      labelText="Email"
+                    />
+                  </div>
 
-                <div className="col-span-6 sm:col-span-4">
-                  <LabeledInput
-                    type="password"
-                    name="password"
-                    id="password"
-                    autoComplete="password"
-                    labelText="Password"
-                    placeholder="***************"
-                  />
+                  <div className="col-span-6 md:col-span-4">
+                    <LabeledInput
+                      type="password"
+                      name="password"
+                      id="password"
+                      autoComplete="password"
+                      labelText="Password"
+                      placeholder="***************"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-              <Button type="submit" style="primary">
-                Login
-              </Button>
-            </div>
-          </fetcher.Form>
-        </Card>
+              <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                <Button type="submit" style="primary">
+                  Login
+                </Button>
+              </div>
+            </fetcher.Form>
+          </Card>
+        </div>
       </div>
-    </div>
+    </DarkBackground>
   )
 }

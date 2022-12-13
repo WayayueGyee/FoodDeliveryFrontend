@@ -11,7 +11,7 @@ import {
   logoutUrl,
   ordersUrl,
   profileGetUrl,
-  registerUrl
+  registerUrl,
 } from 'Routes'
 import NavBarLink from './NavBarLink'
 
