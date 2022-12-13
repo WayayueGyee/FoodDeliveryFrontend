@@ -1,9 +1,0 @@
-.bg-image::before {
-  content: '';
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: rgba(25, 33, 54, 0.5);
-}
