@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { UnauthorizedError } from 'errors/HttpErrors'
+import TokenEvents from 'events/TokenEvents'
 import { redirect } from 'react-router-dom'
 import HttpStatusCode from 'utils/HttpStatusCode'
 
@@ -14,6 +15,8 @@ const checkAuth = (redirectUrl?: string) => {
                             if (response.status !== HttpStatusCode.UNAUTHORIZED) {
                                 return response
                             }
+
+                            TokenEvents.dispatch(TokenEvents.events.expired, 'Token expired')
 
                             if (redirectUrl) {
                                 return redirect(redirectUrl)

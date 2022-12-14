@@ -8,11 +8,12 @@ export default class TokenService {
         return nameOf((token: TokenResponse) => token.token)
     }
 
-    public static getToken(): Promise<unknown> {
-        return localforage.getItem(this.resolveTokenPropName(), (err, token) => {
+    public static async getToken(): Promise<unknown> {
+        const token = await localforage.getItem(this.resolveTokenPropName(), (err, token) => {
             if (err !== null) log(err.message, 'error')
             log(`Token: "${token}"`)
         })
+        return token
     }
 
     /**
@@ -20,7 +21,7 @@ export default class TokenService {
      * @param token JWT token to save
      * @returns Promise with saved token
      */
-    public static saveToken(token: string): Promise<string> {
+    public static saveToken(token: string | undefined | null): Promise<string | undefined | null> {
         return localforage.setItem(this.resolveTokenPropName(), token, (err, savedToken) => {
             if (err !== null) log(err.message, 'error')
             log(`Token "${savedToken}" saved`)

@@ -1,12 +1,9 @@
 import DarkBackground from 'components/primitives/DarkBackground'
-import Input from 'components/primitives/Input'
-import localforage from 'localforage'
+import TokenEvents from 'events/TokenEvents'
 import { TokenResponse, UserRegisterDTO } from 'models/Auth'
 import { redirect, useFetcher } from 'react-router-dom'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
-import { regularText } from 'Styles'
-import nameOf from 'utils/NameOf'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
 import DatePicker from '../primitives/DatePicker'
@@ -24,23 +21,21 @@ export async function registrationAction({ request }: { request: Request }) {
   // TODO: move status code check maybe in decorators
   if (response.status >= 200 && response.status <= 299) {
     const data = response.data as TokenResponse
-    localforage.setItem(TokenService.resolveTokenPropName(), data.token)
-    localforage.setItem(
-      nameOf((ud: UserRegisterDTO) => ud.email),
-      userDto.email
-    )
+    TokenService.saveToken(data.token)
+    TokenEvents.dispatch(TokenEvents.events.updated, 'Token updated')
 
     return redirect('/dish')
   }
 
   return new Response('', {
     status: 500,
-    statusText: 'Чёто хуйню высрал',
+    statusText: 'Internal server error',
   })
 }
 
 export default function RegistrationPage() {
   const fetcher = useFetcher()
+  // Update context if context is choosen
 
   return (
     <>
@@ -71,6 +66,7 @@ export default function RegistrationPage() {
                         id="full-name"
                         autoComplete="given-name"
                         labelText="ФИО"
+                        placeholder="Иванов Иван Иванович"
                       />
                     </div>
 
@@ -81,32 +77,19 @@ export default function RegistrationPage() {
                         id="email-address"
                         autoComplete="email"
                         labelText="Email"
+                        placeholder="user@example.com"
                       />
                     </div>
 
                     <div className="text-left col-span-6 sm:col-span-3">
-                      <FieldLabel htmlFor="phone-number">Телефон</FieldLabel>
-                      <div className="mt-1 flex rounded-md shadow-sm">
-                        <span
-                          className={
-                            'inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500' +
-                            regularText
-                          }
-                        >
-                          +7
-                        </span>
-                        <Input
-                          type="tel"
-                          className={
-                            'block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500' +
-                            regularText
-                          }
-                          name="phone-number"
-                          id="phone-number"
-                          autoComplete="tel"
-                          placeholder="(999) 999 99-99"
-                        />
-                      </div>
+                      <LabeledInput
+                        type="tel"
+                        name="phone-number"
+                        id="phone-number"
+                        autoComplete="tel"
+                        labelText="Телефон"
+                        placeholder="+7 (999) 999 99-99"
+                      />
                     </div>
 
                     <div className="col-span-6 sm:col-span-4  ">
@@ -146,7 +129,7 @@ export default function RegistrationPage() {
                 </div>
               </fetcher.Form>
               <div className="bg-gray-50 px-4 py-3 text-right rounded-md sm:px-6">
-                <Button type="submit" style="primary">
+                <Button type="submit" styleType="primary">
                   Save
                 </Button>
               </div>

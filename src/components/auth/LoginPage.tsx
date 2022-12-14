@@ -1,45 +1,70 @@
+import { UserInfoContext } from 'App'
 import DarkBackground from 'components/primitives/DarkBackground'
-import localforage from 'localforage'
+import ErrorText from 'components/primitives/ErrorText'
+import TokenEvents from 'events/TokenEvents'
 import { LoginCredsDTO, TokenResponse } from 'models/Auth'
-import { redirect, useFetcher } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { Navigate, redirect, useActionData, useFetcher } from 'react-router-dom'
+import { apiUrl } from 'routes/RequestRoutes'
+import { dishesUrl } from 'routes/Routes'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
-import nameOf from 'utils/NameOf'
+import validator from 'validator'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
 import LabeledInput from '../primitives/LabeledInput'
 
+// TODO: add loader which will set localStorage
+
 export async function loginAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()
-  // TODO: add checking object type (optional 'cause type can be checked inside of component)
   const loginDto = Object.fromEntries(formData) as unknown as LoginCredsDTO
-  console.log('LOGIN_DTO: ', loginDto)
 
   const response = await AuthService.login(loginDto)
 
   if (response.status >= 200 && response.status <= 299) {
     const data = response.data as TokenResponse
-    await localforage.setItem(TokenService.resolveTokenPropName(), data.token)
-    await localforage.setItem(
-      nameOf((ud: LoginCredsDTO) => ud.email),
-      loginDto.email
-    )
+    TokenService.saveToken(data.token)
+    TokenEvents.dispatch(TokenEvents.events.updated, 'Token updated')
 
-    return redirect('/dish')
+    return redirect('/' + dishesUrl)
   }
 
   return new Response('', {
     status: 500,
-    statusText: 'Чёто хуйню высрал',
+    statusText: 'Internal server error',
   })
 }
 
 export default function LoginPage() {
   const fetcher = useFetcher()
-  // const fd = useActionData()
+  const [isEmailError, setEmailError] = useState(false)
+  const [isPasswordError, setPasswordError] = useState(false)
+  const [isEmpty, setEmpty] = useState(true)
+
+  const validateEmail = (email: string) => {
+    const isValid = validator.isEmail(email)
+
+    if (isValid) {
+      return isEmailError && setEmailError(false)
+    }
+
+    return !isEmailError && setEmailError(true)
+  }
+
+  const validatePassword = (password: string) => {
+    const isValid = validator.isLength(password, {
+      min: 6,
+    })
+
+    if (isValid) {
+      return isPasswordError && setPasswordError(false)
+    }
+
+    return !isPasswordError && setPasswordError(true)
+  }
 
   return (
-    // TODO: Change visuals, make horizontal center align
     <DarkBackground>
       <div
         style={{ height: 'calc(100vh - 64px)' }}
@@ -58,28 +83,46 @@ export default function LoginPage() {
                 <div className="grid grid-cols-6 gap-6">
                   <div className="col-span-6 md:col-span-4">
                     <LabeledInput
+                      required={true}
+                      isError={isEmailError}
                       type="email"
                       name="email"
                       id="email"
                       autoComplete="email"
                       labelText="Email"
+                      onChange={(e) => {
+                        e.target.value == '' ? setEmpty(true) : setEmpty(false)
+                        validateEmail(e.target.value)
+                      }}
                     />
+                    {isEmailError && <ErrorText text="Please enter an email" />}
                   </div>
 
                   <div className="col-span-6 md:col-span-4">
                     <LabeledInput
+                      required={true}
+                      isError={isPasswordError}
                       type="password"
                       name="password"
                       id="password"
                       autoComplete="password"
                       labelText="Password"
                       placeholder="***************"
+                      onChange={(e) => {
+                        e.target.value == '' ? setEmpty(true) : setEmpty(false)
+                        validatePassword(e.target.value)
+                      }}
                     />
+                    {isPasswordError && <ErrorText text="Please choose a password" />}
                   </div>
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                <Button type="submit" style="primary">
+                <Button
+                  disabled={isEmailError || isPasswordError || isEmpty}
+                  type="submit"
+                  styleType="primary"
+                >
                   Login
                 </Button>
               </div>

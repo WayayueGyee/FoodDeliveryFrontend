@@ -2,19 +2,20 @@ import { InputHTMLAttributes } from 'react'
 import FieldLabel from './FieldLabel'
 import Input from './Input'
 
-interface InputProps extends InputHTMLAttributes<HTMLElement> {
+interface LabeledInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  isError?: boolean
   labelText?: string
 }
 
-export default function LabeledInput(props: InputProps) {
-  const { labelText, ...otherProps } = props
+export default function LabeledInput({ labelText, isError, ...props }: LabeledInputProps) {
+  // const { labelText, ...otherProps } = props
 
   return (
     <div className="text-left">
       {props.name !== undefined && labelText !== undefined && (
         <FieldLabel htmlFor={props.name}>{labelText}</FieldLabel>
       )}
-      <Input {...otherProps} />
+      <Input className={isError ? '' : undefined} {...props} />
     </div>
   )
 }

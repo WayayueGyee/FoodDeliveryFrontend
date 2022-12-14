@@ -1,15 +1,13 @@
-import { kreosoftApiUrl } from './../Routes';
 import axios, { AxiosResponse } from 'axios'
 import { LoginCredsDTO, UserRegisterDTO } from 'models/Auth'
-import checkAuth from 'utils/decorators/CheckAuth'
+import { apiUrl, reqLoginUrl, reqRegisterUrl } from 'routes/RequestRoutes'
 
 export default class AuthService {
-    @checkAuth()
     public static login(loginCreds: LoginCredsDTO) {
-        return axios.post(kreosoftApiUrl + 'account/login', loginCreds)
+        return axios.post(apiUrl + reqLoginUrl, loginCreds)
     }
 
     public static register(registerDto: UserRegisterDTO): Promise<AxiosResponse<any, any>> {
-        return axios.post(kreosoftApiUrl + 'account/register', registerDto)
+        return axios.post(apiUrl + reqRegisterUrl, registerDto)
     }
 }

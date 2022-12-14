@@ -6,6 +6,7 @@ import LoginPage, { loginAction } from 'components/auth/LoginPage'
 import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
 import ErrorPage from './ErrorPage'
 import './index.css'
+import { cartUrl, dishesUrl, loginUrl, ordersUrl, registerUrl } from 'routes/Routes'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            path: 'dish',
+            path: dishesUrl,
             element: (
               <div>
                 <Outlet />
@@ -25,18 +26,18 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: 'basket',
+            path: cartUrl,
           },
           {
-            path: 'order',
+            path: ordersUrl,
           },
           {
-            path: 'account/register',
+            path: registerUrl,
             element: <RegistrationPage />,
             action: registrationAction,
           },
           {
-            path: 'account/login',
+            path: loginUrl,
             element: <LoginPage />,
             action: loginAction,
           },
