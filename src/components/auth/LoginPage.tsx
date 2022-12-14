@@ -1,11 +1,9 @@
-import { UserInfoContext } from 'App'
 import DarkBackground from 'components/primitives/DarkBackground'
 import ErrorText from 'components/primitives/ErrorText'
 import TokenEvents from 'events/TokenEvents'
 import { LoginCredsDTO, TokenResponse } from 'models/Auth'
-import { useContext, useState } from 'react'
-import { Navigate, redirect, useActionData, useFetcher } from 'react-router-dom'
-import { apiUrl } from 'routes/RequestRoutes'
+import { useState } from 'react'
+import { redirect, useFetcher } from 'react-router-dom'
 import { dishesUrl } from 'routes/Routes'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
@@ -40,7 +38,11 @@ export default function LoginPage() {
   const fetcher = useFetcher()
   const [isEmailError, setEmailError] = useState(false)
   const [isPasswordError, setPasswordError] = useState(false)
-  const [isEmpty, setEmpty] = useState(true)
+
+  const [isEmailEmpty, setEmailEmpty] = useState(true)
+  const [isPasswordEmpty, setPasswordEmpty] = useState(true)
+
+  const isEmpty = isEmailEmpty && isPasswordEmpty
 
   const validateEmail = (email: string) => {
     const isValid = validator.isEmail(email)
@@ -65,6 +67,7 @@ export default function LoginPage() {
   }
 
   return (
+    // TODO: components with their flags can be wrapped by the context
     <DarkBackground>
       <div
         style={{ height: 'calc(100vh - 64px)' }}
@@ -83,7 +86,7 @@ export default function LoginPage() {
                 <div className="grid grid-cols-6 gap-6">
                   <div className="col-span-6 md:col-span-4">
                     <LabeledInput
-                      required={true}
+                      required
                       isError={isEmailError}
                       type="email"
                       name="email"
@@ -91,16 +94,17 @@ export default function LoginPage() {
                       autoComplete="email"
                       labelText="Email"
                       onChange={(e) => {
-                        e.target.value == '' ? setEmpty(true) : setEmpty(false)
+                        e.target.value == '' ? setEmailEmpty(true) : setEmailEmpty(false)
                         validateEmail(e.target.value)
                       }}
                     />
-                    {isEmailError && <ErrorText text="Please enter an email" />}
+                    <ErrorText isError={!isEmailEmpty && isEmailError} text="Неверный email" />
+                    <ErrorText isError={isEmailEmpty} text="Пожалуйста, введите email" />
                   </div>
 
                   <div className="col-span-6 md:col-span-4">
                     <LabeledInput
-                      required={true}
+                      required
                       isError={isPasswordError}
                       type="password"
                       name="password"
@@ -109,11 +113,15 @@ export default function LoginPage() {
                       labelText="Password"
                       placeholder="***************"
                       onChange={(e) => {
-                        e.target.value == '' ? setEmpty(true) : setEmpty(false)
+                        e.target.value == '' ? setPasswordEmpty(true) : setPasswordEmpty(false)
                         validatePassword(e.target.value)
                       }}
                     />
-                    {isPasswordError && <ErrorText text="Please choose a password" />}
+                    <ErrorText
+                      isError={!isPasswordEmpty && isPasswordError}
+                      text="Пароль должен быть минимум 6 символов длиной"
+                    />
+                    <ErrorText isError={isPasswordEmpty} text="Пожалуйста, введите пароль" />
                   </div>
                 </div>
               </div>

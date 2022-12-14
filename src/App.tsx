@@ -1,6 +1,4 @@
 import 'App.css'
-import ArrowRoundedLeft from 'components/icons/ArrowRoundedLeft'
-import ProfileIcon from 'components/icons/ProfileIcon'
 import NavBar from 'components/navbar/NavBar'
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'

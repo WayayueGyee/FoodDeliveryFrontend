@@ -1,9 +1,12 @@
 import DarkBackground from 'components/primitives/DarkBackground'
+import ErrorText from 'components/primitives/ErrorText'
 import TokenEvents from 'events/TokenEvents'
 import { TokenResponse, UserRegisterDTO } from 'models/Auth'
+import { useState } from 'react'
 import { redirect, useFetcher } from 'react-router-dom'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
+import validator from 'validator'
 import Button from '../primitives/Button'
 import Card from '../primitives/Card'
 import DatePicker from '../primitives/DatePicker'
@@ -13,12 +16,10 @@ import Select from '../primitives/Select'
 
 export async function registrationAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()
-  // TODO: add checking object type (optional 'cause type can be checked inside of component)
   const userDto = Object.fromEntries(formData) as unknown as UserRegisterDTO
 
   const response = await AuthService.register(userDto)
-  // TODO: think about adding headers to request using decorators or smth like this
-  // TODO: move status code check maybe in decorators
+
   if (response.status >= 200 && response.status <= 299) {
     const data = response.data as TokenResponse
     TokenService.saveToken(data.token)
@@ -35,7 +36,36 @@ export async function registrationAction({ request }: { request: Request }) {
 
 export default function RegistrationPage() {
   const fetcher = useFetcher()
-  // Update context if context is choosen
+  const [isEmailError, setEmailError] = useState(false)
+  const [isPasswordError, setPasswordError] = useState(false)
+
+  const [isFullNameEmpty, setFullNameEmpty] = useState(true)
+  const [isEmailEmpty, setEmailEmpty] = useState(true)
+  const [isPasswordEmpty, setPasswordEmpty] = useState(true)
+
+  const isEmpty = isFullNameEmpty && isEmailEmpty && isPasswordEmpty
+
+  const validateEmail = (email: string) => {
+    const isValid = validator.isEmail(email)
+
+    if (isValid) {
+      return isEmailError && setEmailError(false)
+    }
+
+    return !isEmailError && setEmailError(true)
+  }
+
+  const validatePassword = (password: string) => {
+    const isValid = validator.isLength(password, {
+      min: 6,
+    })
+
+    if (isValid) {
+      return isPasswordError && setPasswordError(false)
+    }
+
+    return !isPasswordError && setPasswordError(true)
+  }
 
   return (
     <>
@@ -61,26 +91,39 @@ export default function RegistrationPage() {
                   <div className="grid grid-cols-6 gap-6">
                     <div className="col-span-full">
                       <LabeledInput
+                        required
                         type="text"
                         name="full-name"
                         id="full-name"
                         autoComplete="given-name"
                         labelText="ФИО"
                         placeholder="Иванов Иван Иванович"
+                        onChange={(e) =>
+                          e.target.value == '' ? setFullNameEmpty(true) : setFullNameEmpty(false)
+                        }
                       />
+                      <ErrorText isError={isFullNameEmpty} text="Поле ФИО не может быть пустым" />
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
                       <LabeledInput
-                        type="text"
-                        name="email-address"
-                        id="email-address"
-                        autoComplete="email"
+                        required
+                        isError={isEmailError}
+                        type="email"
+                        name="email"
+                        id="email"
+                        // autoComplete="email"
                         labelText="Email"
-                        placeholder="user@example.com"
+                        onChange={(e) => {
+                          e.target.value == '' ? setEmailEmpty(true) : setEmailEmpty(false)
+                          validateEmail(e.target.value)
+                        }}
                       />
+                      <ErrorText isError={!isEmailEmpty && isEmailError} text="Неверный email" />
+                      <ErrorText isError={isEmailEmpty} text="Пожалуйста, введите email" />
                     </div>
 
+                    {/* TODO: add phone number mask */}
                     <div className="text-left col-span-6 sm:col-span-3">
                       <LabeledInput
                         type="tel"
@@ -95,13 +138,24 @@ export default function RegistrationPage() {
                     <div className="col-span-6 sm:col-span-4  ">
                       <div className="text-lg">
                         <LabeledInput
+                          required
+                          isError={isPasswordError}
                           type="password"
-                          name="current-password"
-                          id="reg-current-password"
-                          autoComplete="current-password"
+                          name="password"
+                          id="password"
+                          autoComplete="password"
                           labelText="Password"
                           placeholder="***************"
+                          onChange={(e) => {
+                            e.target.value == '' ? setPasswordEmpty(true) : setPasswordEmpty(false)
+                            validatePassword(e.target.value)
+                          }}
                         />
+                        <ErrorText
+                          isError={!isPasswordEmpty && isPasswordError}
+                          text="Пароль должен быть минимум 6 символов длиной"
+                        />
+                        <ErrorText isError={isPasswordEmpty} text="Пожалуйста, введите пароль" />
                       </div>
                     </div>
 
@@ -129,7 +183,11 @@ export default function RegistrationPage() {
                 </div>
               </fetcher.Form>
               <div className="bg-gray-50 px-4 py-3 text-right rounded-md sm:px-6">
-                <Button type="submit" styleType="primary">
+                <Button
+                  disabled={isEmailError || isPasswordError || isEmpty}
+                  type="submit"
+                  styleType="primary"
+                >
                   Save
                 </Button>
               </div>
