@@ -55,8 +55,9 @@ export default function LoginPage() {
   }
 
   const validatePassword = (password: string) => {
-    const isValid = validator.isLength(password, {
-      min: 6,
+    const isValid = validator.isStrongPassword(password, {
+      minLength: 6,
+      minNumbers: 1,
     })
 
     if (isValid) {

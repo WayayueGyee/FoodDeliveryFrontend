@@ -5,6 +5,7 @@ import { TokenResponse, UserRegisterDTO } from 'models/Auth'
 import { useState } from 'react'
 import { useIMask } from 'react-imask'
 import { redirect, useFetcher } from 'react-router-dom'
+import { dishesUrl } from 'routes/Routes'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
 import validator from 'validator'
@@ -28,7 +29,7 @@ export async function registrationAction({ request }: { request: Request }) {
     TokenService.saveToken(data.token)
     TokenEvents.dispatch(TokenEvents.events.updated, 'Token updated')
 
-    return redirect('/dish')
+    return redirect('/' + dishesUrl)
   }
 
   return new Response('', {
@@ -63,8 +64,9 @@ export default function RegistrationPage() {
   }
 
   const validatePassword = (password: string) => {
-    const isValid = validator.isLength(password, {
-      min: 6,
+    const isValid = validator.isStrongPassword(password, {
+      minLength: 6,
+      minNumbers: 1,
     })
 
     if (isValid) {

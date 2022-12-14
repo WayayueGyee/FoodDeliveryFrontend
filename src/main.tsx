@@ -1,12 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
-import App from './App'
 import LoginPage, { loginAction } from 'components/auth/LoginPage'
 import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
+import DishMenu from 'components/dishes/DishMenu'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { cartUrl, dishesUrl, loginUrl, ordersUrl, registerUrl } from 'routes/Routes'
+import App from './App'
 import ErrorPage from './ErrorPage'
 import './index.css'
-import { cartUrl, dishesUrl, loginUrl, ordersUrl, registerUrl } from 'routes/Routes'
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: dishesUrl,
-            element: (
-              <div>
-                <Outlet />
-              </div>
-            ),
+            element: <DishMenu />,
           },
           {
             path: cartUrl,

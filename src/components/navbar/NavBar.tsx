@@ -25,7 +25,7 @@ export default function NavBar() {
   const isAuthorized = useAuth()
 
   return (
-    <header className="w-screen fixed top-0 left-0">
+    <header className="w-screen fixed z-50 top-0 left-0">
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
