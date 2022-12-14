@@ -6,7 +6,7 @@ export const profileGetUrl = 'profile'
 export const profileChangeUrl = 'profile'
 
 // Dish
-export const dishesUrl = 'items'
+export const dishesUrl = ''
 export const dishUrl = 'item/:id'
 export const dishRatingGetUrl = 'dish/:id/rating/check'
 export const dishRatingAddUrl = 'dish/:id/rating'

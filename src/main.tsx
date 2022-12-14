@@ -1,6 +1,6 @@
 import LoginPage, { loginAction } from 'components/auth/LoginPage'
 import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
-import DishMenu from 'components/dishes/DishMenu'
+import DishMenu, { dishMenuLoader } from 'components/dishes/DishMenu'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
           {
             path: dishesUrl,
             element: <DishMenu />,
+            loader: dishMenuLoader,
           },
           {
             path: cartUrl,

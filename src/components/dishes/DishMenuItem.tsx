@@ -3,13 +3,14 @@ import StarRating from 'components/primitives/StarRating'
 import { HTMLAttributes } from 'react'
 import './DishMenuItem.css'
 import VegetarianLabel from './VegetarianLabel'
+import placeholderImage from 'assets/placeholder.png'
 
 interface DishMenuElementProps extends HTMLAttributes<HTMLElement> {
-  image: string
+  image?: string | undefined | null
   imageAlt?: string
-  description: string
+  description?: string | undefined | null
   name: string
-  price: string
+  price?: string | undefined | null
 }
 
 export default function DishMenuElement({
@@ -24,17 +25,19 @@ export default function DishMenuElement({
       <VegetarianLabel />
       <img
         className="w-64 mx-auto transform transition duration-300 hover:scale-105"
-        src={image}
+        src={image ?? placeholderImage}
         alt={imageAlt}
       />
       <div className="flex flex-col items-center my-3 space-y-2">
         <h1 className="text-gray-900 text-xl sm:text-lg">{name}</h1>
-        <p className="text-gray-500 text-base sm:text-sm text-center">{description}</p>
+        <p className="text-gray-500 text-base sm:text-sm text-center">
+          {description ?? 'Нет информации о блюде'}
+        </p>
 
         <StarRating />
 
         <div className="flex justify-between w-full items-center rounded-md bg-slate-100 p-2">
-          <h2 className="text-gray-900 text-2xl font-semibold">{price}</h2>
+          <h2 className="text-gray-900 text-2xl font-semibold">{price ? price + 'р' : '-'}</h2>
           <Button
             styleType="secondary"
             className="bg-primary text-white px-8 py-2 focus:outline-none rounded-full mt-24 transform transition duration-300 hover:scale-10"

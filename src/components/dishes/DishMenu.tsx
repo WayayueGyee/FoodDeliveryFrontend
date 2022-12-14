@@ -1,3 +1,6 @@
+import { DishPagedList } from 'models/Dishes'
+import { useLoaderData } from 'react-router-dom'
+import DishService from 'services/DishService'
 import DishMenuElement from './DishMenuItem'
 
 const products = [
@@ -48,7 +51,25 @@ const products = [
   },
 ]
 
+export async function dishMenuLoader({ request }: { request: Request }) {
+  const url = new URL(request.url)
+  const params = Object.fromEntries(url.searchParams)
+
+  const response = await DishService.getDishPage(params)
+
+  if (response.status >= 200 && response.status <= 299) {
+    return response.data
+  }
+
+  return new Response('', {
+    status: 500,
+    statusText: 'Internal server error',
+  })
+}
+
 export default function DishMenu() {
+  const loaderData = useLoaderData() as DishPagedList
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -57,16 +78,16 @@ export default function DishMenu() {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
+          {loaderData.dishes?.map((item) => (
             <DishMenuElement
-              key={product.id}
-              image={product.imageSrc}
-              imageAlt={product.imageAlt}
+              key={item.id}
+              image={item.image}
               description={'Gay one the what walk then she. Demesne mention pr'}
-              price={product.price}
-              name={product.name}
+              price={item.price.toString()}
+              name={item.name}
             />
           ))}
+          <DishMenuElement name={'Пиздатое блюдо'} />
         </div>
       </div>
     </div>
