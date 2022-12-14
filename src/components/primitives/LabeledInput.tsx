@@ -1,13 +1,17 @@
-import { InputHTMLAttributes } from 'react'
 import FieldLabel from './FieldLabel'
-import Input from './Input'
+import Input, { InputProps } from './Input'
 
-interface LabeledInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface LabeledInputProps extends InputProps {
   isError?: boolean
   labelText?: string
 }
 
-export default function LabeledInput({ labelText, isError, ...props }: LabeledInputProps) {
+export default function LabeledInput({
+  innerRef,
+  labelText,
+  isError,
+  ...props
+}: LabeledInputProps) {
   // const { labelText, ...otherProps } = props
 
   return (
@@ -15,7 +19,7 @@ export default function LabeledInput({ labelText, isError, ...props }: LabeledIn
       {props.name !== undefined && labelText !== undefined && (
         <FieldLabel htmlFor={props.name}>{labelText}</FieldLabel>
       )}
-      <Input className={isError ? '' : undefined} {...props} />
+      <Input innerRef={innerRef} className={isError ? '' : undefined} {...props} />
     </div>
   )
 }

@@ -113,7 +113,7 @@ export default function DatePicker() {
           readOnly
           // className="cursor-pointer w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
           placeholder="Select date"
-          name="date-input"
+          name="birthDate"
           // TODO: add changing value via keyboard
           value={format(selectedDate, 'yyyy-MM-dd')}
           onClick={toggleDatepicker}

@@ -3,7 +3,7 @@ export interface LoginCredsDTO {
     password: string
 }
 
-export type Gender = 'Male' | 'Female'
+export type Gender = 1 | 0 | 'Мужчина' | 'Женщина'
 
 export interface UserRegisterDTO {
     // minLength: 1

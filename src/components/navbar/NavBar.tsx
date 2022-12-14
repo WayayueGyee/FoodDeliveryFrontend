@@ -62,8 +62,8 @@ export default function NavBar() {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
                   <Menu as="div" className="relative ml-3">
                     {isAuthorized ? (
+                      // Authorized
                       <>
-                        {/* Authorized */}
                         <Menu.Button className="flex rounded-full bg-gray-800 text-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           {/* TODO: svg looks sharp. Do smth with it */}
                           <ProfileIcon className="h-8 w-8 text-gray-300" />
@@ -74,8 +74,8 @@ export default function NavBar() {
                         </Dropdown>
                       </>
                     ) : (
+                      // Unauthorized
                       <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-4">
-                        {/* Unauthorized */}
                         <NavBarLink to={loginUrl}>Войти</NavBarLink>
                         <span className="h-6 w-px bg-gray-400" aria-hidden="true"></span>
                         <NavBarLink to={registerUrl}>Создать аккаунт</NavBarLink>

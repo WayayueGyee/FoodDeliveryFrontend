@@ -3,6 +3,7 @@ import ErrorText from 'components/primitives/ErrorText'
 import TokenEvents from 'events/TokenEvents'
 import { TokenResponse, UserRegisterDTO } from 'models/Auth'
 import { useState } from 'react'
+import { useIMask } from 'react-imask'
 import { redirect, useFetcher } from 'react-router-dom'
 import AuthService from 'services/AuthService'
 import TokenService from 'services/TokenService'
@@ -17,6 +18,8 @@ import Select from '../primitives/Select'
 export async function registrationAction({ request }: { request: Request }) {
   const formData: FormData = await request.formData()
   const userDto = Object.fromEntries(formData) as unknown as UserRegisterDTO
+  userDto.gender = userDto.gender == 'Мужчина' ? 1 : 0
+  console.log(userDto)
 
   const response = await AuthService.register(userDto)
 
@@ -36,12 +39,16 @@ export async function registrationAction({ request }: { request: Request }) {
 
 export default function RegistrationPage() {
   const fetcher = useFetcher()
+  const [opts] = useState({ mask: '+{7}(000)000-00-00' })
+  // const { ref, unmaskedValue } = useIMask(opts)
+  const { ref } = useIMask(opts)
+
   const [isEmailError, setEmailError] = useState(false)
   const [isPasswordError, setPasswordError] = useState(false)
 
-  const [isFullNameEmpty, setFullNameEmpty] = useState(true)
-  const [isEmailEmpty, setEmailEmpty] = useState(true)
-  const [isPasswordEmpty, setPasswordEmpty] = useState(true)
+  const [isFullNameEmpty, setFullNameEmpty] = useState(false)
+  const [isEmailEmpty, setEmailEmpty] = useState(false)
+  const [isPasswordEmpty, setPasswordEmpty] = useState(false)
 
   const isEmpty = isFullNameEmpty && isEmailEmpty && isPasswordEmpty
 
@@ -93,7 +100,7 @@ export default function RegistrationPage() {
                       <LabeledInput
                         required
                         type="text"
-                        name="full-name"
+                        name="fullName"
                         id="full-name"
                         autoComplete="given-name"
                         labelText="ФИО"
@@ -112,7 +119,6 @@ export default function RegistrationPage() {
                         type="email"
                         name="email"
                         id="email"
-                        // autoComplete="email"
                         labelText="Email"
                         onChange={(e) => {
                           e.target.value == '' ? setEmailEmpty(true) : setEmailEmpty(false)
@@ -123,17 +129,20 @@ export default function RegistrationPage() {
                       <ErrorText isError={isEmailEmpty} text="Пожалуйста, введите email" />
                     </div>
 
-                    {/* TODO: add phone number mask */}
                     <div className="text-left col-span-6 sm:col-span-3">
                       <LabeledInput
+                        innerRef={ref}
                         type="tel"
-                        name="phone-number"
-                        id="phone-number"
+                        id="phoneNumber"
                         autoComplete="tel"
                         labelText="Телефон"
                         placeholder="+7 (999) 999 99-99"
                       />
                     </div>
+
+                    {/* <div className="hidden">
+                      <input name="phone-number" value={unmaskedValue}></input>
+                    </div> */}
 
                     <div className="col-span-6 sm:col-span-4  ">
                       <div className="text-lg">
@@ -153,7 +162,7 @@ export default function RegistrationPage() {
                         />
                         <ErrorText
                           isError={!isPasswordEmpty && isPasswordError}
-                          text="Пароль должен быть минимум 6 символов длиной"
+                          text="Пароль должен состоять минимум из 6 символов"
                         />
                         <ErrorText isError={isPasswordEmpty} text="Пожалуйста, введите пароль" />
                       </div>
@@ -165,8 +174,8 @@ export default function RegistrationPage() {
 
                     <div className="col-span-6 sm:col-span-3">
                       <div className="text-left">
-                        <FieldLabel htmlFor="sex">Пол</FieldLabel>
-                        <Select id="sex" name="sex" options={['Мужчина', 'Женщина']} />
+                        <FieldLabel htmlFor="gender">Пол</FieldLabel>
+                        <Select id="gender" name="gender" options={['Мужчина', 'Женщина']} />
                       </div>
                     </div>
 
@@ -181,16 +190,16 @@ export default function RegistrationPage() {
                     </div>
                   </div>
                 </div>
+                <div className="bg-gray-50 px-4 py-3 text-right rounded-md sm:px-6">
+                  <Button
+                    disabled={isEmailError || isPasswordError || isEmpty}
+                    type="submit"
+                    styleType="primary"
+                  >
+                    Save
+                  </Button>
+                </div>
               </fetcher.Form>
-              <div className="bg-gray-50 px-4 py-3 text-right rounded-md sm:px-6">
-                <Button
-                  disabled={isEmailError || isPasswordError || isEmpty}
-                  type="submit"
-                  styleType="primary"
-                >
-                  Save
-                </Button>
-              </div>
             </Card>
           </div>
         </div>

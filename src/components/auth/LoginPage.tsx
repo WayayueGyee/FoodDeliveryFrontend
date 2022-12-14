@@ -39,8 +39,8 @@ export default function LoginPage() {
   const [isEmailError, setEmailError] = useState(false)
   const [isPasswordError, setPasswordError] = useState(false)
 
-  const [isEmailEmpty, setEmailEmpty] = useState(true)
-  const [isPasswordEmpty, setPasswordEmpty] = useState(true)
+  const [isEmailEmpty, setEmailEmpty] = useState(false)
+  const [isPasswordEmpty, setPasswordEmpty] = useState(false)
 
   const isEmpty = isEmailEmpty && isPasswordEmpty
 
@@ -119,7 +119,7 @@ export default function LoginPage() {
                     />
                     <ErrorText
                       isError={!isPasswordEmpty && isPasswordError}
-                      text="Пароль должен быть минимум 6 символов длиной"
+                      text="Пароль должен состоять минимум из 6 символов"
                     />
                     <ErrorText isError={isPasswordEmpty} text="Пожалуйста, введите пароль" />
                   </div>
