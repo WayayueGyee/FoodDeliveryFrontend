@@ -4,7 +4,7 @@ export default function StarIcon({ title, titleId, ...props }: IconProps) {
   return (
     <svg
       aria-hidden="true"
-      className="w-8 h-8 sm:w-6 sm:h-6 text-yellow-400"
+      className="w-8 h-8 sm:w-6 sm:h-6" // text-yellow-400
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"

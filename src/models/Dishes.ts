@@ -5,11 +5,11 @@ export type DishCategory = 'Wok' | 'Pizza' | 'Soup' | 'Dessert' | 'Drink'
 export interface DishDto {
     id: string
     name: string
-    description: string | undefined | null
+    description?: string | undefined | null
     price: number
-    image: string | undefined | null
+    image?: string | undefined | null
     vegetarian: boolean
-    rating: number | undefined | null
+    rating?: number | undefined | null
     category: DishCategory
 }
 

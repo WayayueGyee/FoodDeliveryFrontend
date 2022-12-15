@@ -1,9 +1,9 @@
 import StarIcon from 'components/icons/StarIcon'
 import { regularText } from 'Styles'
 
-export default function StarRating() {
+export default function StarRating({ className }: { className?: string }) {
   return (
-    <div className="flex items-center">
+    <div className={'flex items-center' + ' ' + className}>
       <StarIcon />
       <StarIcon />
       <StarIcon />

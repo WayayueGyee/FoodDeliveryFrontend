@@ -11,17 +11,17 @@ export const reqProfileChangeUrl = 'account/profile'
 
 // Dish
 export const reqDishesUrl = 'dish'
-export const reqDishUrl = 'dish/:id'
-export const reqDishRatingGetUrl = 'dish/:id/rating/check'
-export const reqDishRatingAddUrl = 'dish/:id/rating'
+export const reqDishUrl = (id: string) => `dish/${id}`
+export const reqDishRatingGetUrl = (id: string) => `dish/${id}/rating/check`
+export const reqDishRatingAddUrl = (id: string) => `dish/${id}/rating`
 
 // Order
-export const reqOrderGetUrl = 'order/:id'
+export const reqOrderGetUrl = (id: string) => `order/${id}`
 export const reqOrdersUrl = 'order'
 export const reqOrderAddUrl = 'order'
-export const reqOrderConfirmUrl = 'order/:id/status'
+export const reqOrderConfirmUrl = (id: string) => `order/${id}/status`
 
 // Basket
 export const reqBasketUrl = 'basket'
-export const reqBasketAddDishUrl = 'basket/dish/:dishId'
-export const reqBasketDeleteDishUrl = 'basket/dish/:dishId' // ?increase=false
+export const reqBasketAddDishUrl = (dishId: string) => `basket/dish/${dishId}`
+export const reqBasketDeleteDishUrl = (dishId: string) => `basket/dish/${dishId}` // ?increase=false

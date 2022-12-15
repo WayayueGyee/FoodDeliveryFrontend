@@ -55,9 +55,8 @@ export default function LoginPage() {
   }
 
   const validatePassword = (password: string) => {
-    const isValid = validator.isStrongPassword(password, {
-      minLength: 6,
-      minNumbers: 1,
+    const isValid = validator.isLength(password, {
+      min: 6,
     })
 
     if (isValid) {
@@ -120,7 +119,7 @@ export default function LoginPage() {
                     />
                     <ErrorText
                       isError={!isPasswordEmpty && isPasswordError}
-                      text="Пароль должен состоять минимум из 6 символов"
+                      text="Пароль должен состоять минимум из 6 символов, среди которых должна быть цифра"
                     />
                     <ErrorText isError={isPasswordEmpty} text="Пожалуйста, введите пароль" />
                   </div>

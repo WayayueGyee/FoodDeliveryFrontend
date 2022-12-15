@@ -5,5 +5,6 @@ export default async function AuthConfig() {
         headers: {
             Authorization: ('Bearer ' + (await TokenService.getToken())) as string,
         },
+        validateStatus: () => true,
     }
 }

@@ -2,7 +2,13 @@ import { useRouteError } from 'react-router-dom'
 
 export default function ErrorPage() {
   const error = useRouteError()
-  console.error(error)
+  // const navigate = useNavigate()
+
+  // if (error instanceof HttpError) {
+  //   if (error.statusCode === HttpStatusCode.UNAUTHORIZED) {
+  //     navigate.
+  //   }
+  // } 
 
   return (
     <div id="error-page">
