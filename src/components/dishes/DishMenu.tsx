@@ -1,9 +1,7 @@
 import Button from 'components/primitives/Button'
-import { DishDto, DishPagedList } from 'models/Dishes'
-import { PageInfoModel } from 'models/PageInfo'
-import { useRef } from 'react'
-import { useFetcher, useLoaderData } from 'react-router-dom'
-import { apiUrl } from 'routes/RequestRoutes'
+import { DishPagedList } from 'models/Dishes'
+import { useState } from 'react'
+import { useLoaderData, useSearchParams } from 'react-router-dom'
 import DishService from 'services/DishService'
 import DishMenuItem from './DishMenuItem'
 
@@ -12,31 +10,45 @@ export async function dishMenuLoader({ request }: { request: Request }) {
   const params = Object.fromEntries(url.searchParams)
 
   const result: { dishes: any[]; pagination: any } = { dishes: [], pagination: {} }
+  const pageNumber = params['page'] ? +params['page'] : 1
 
-  for (let i = 0; i < +params[i]; i++) {
-    const response = await DishService.getDishPage(params)
+  for (let i = 1; i <= pageNumber; i++) {
+    const response = await DishService.getDishPage({ ...params, page: i.toString() })
 
     if (response.status >= 200 && response.status <= 299) {
       const pagedList = response.data as DishPagedList
-      result.dishes.concat(pagedList.dishes)
+      result.dishes = result.dishes.concat(pagedList.dishes)
       result.pagination = pagedList.pagination
-
-      if (pagedList.pagination.count === pagedList.pagination.count) {
-        break
-      }
+      if (pagedList.pagination.count === pagedList.pagination.current) break
+    } else {
+      throw new Response('', {
+        status: response.status,
+        statusText: response.statusText,
+      })
     }
   }
 
-  return new Response('', {
-    status: 500,
-    statusText: 'Internal server error',
-  })
+  return result
 }
 
 export default function DishMenu() {
   const loaderData = useLoaderData() as DishPagedList
-  const fetcher = useFetcher()
-  const currentPage = useRef(loaderData.pagination.current)
+  const [isLastPage, setLastPage] = useState(false)
+  const [search, setSearch] = useSearchParams()
+
+  const loadPage = async () => {
+    if (isLastPage) return
+
+    const currPage = search.get('page') ?? '1'
+
+    if (currPage === loaderData.pagination.count.toString()) {
+      setLastPage(true)
+      return
+    }
+
+    search.set('page', (+currPage + 1).toString())
+    setSearch(search)
+  }
 
   return (
     <div className="bg-white">
@@ -44,24 +56,26 @@ export default function DishMenu() {
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Меню</h2>
 
         <div className="mt-6 mb-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {loaderData.dishes?.map((item) => (
-            <DishMenuItem
-              key={item.id}
-              id={item.id}
-              image={item.image}
-              description={item.description}
-              vegetarian={item.vegetarian}
-              category={item.category}
-              price={item.price}
-              name={item.name}
-            />
-          ))}
+          {loaderData.dishes?.map((item) => {
+            return (
+              <DishMenuItem
+                key={item.id}
+                id={item.id}
+                image={item.image}
+                description={item.description}
+                vegetarian={item.vegetarian}
+                category={item.category}
+                price={item.price}
+                name={item.name}
+              />
+            )
+          })}
         </div>
-        <fetcher.Form action={`${apiUrl}`}>
-          <Button type="submit" styleType="primary">
+        <div className="">
+          <Button styleType="primary" onClick={() => loadPage()}>
             Загрузить ещё
           </Button>
-        </fetcher.Form>
+        </div>
         {/* <PaginationBar /> */}
       </div>
     </div>
