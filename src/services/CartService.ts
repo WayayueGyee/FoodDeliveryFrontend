@@ -11,15 +11,18 @@ export default class CartService {
     }
 
     @checkAuth(`/${loginUrl}`)
-    public static async addToCart(dishId: string) {
-        return axios.post(`${apiUrl}${reqBasketUrl}/${reqDishesUrl}/${dishId}`, await AuthConfig())
+    public static async addToCart(dishId: string, increase = false) {
+        return axios.post(`${apiUrl}${reqBasketUrl}/${reqDishesUrl}/${dishId}`, '', {
+            ...(await AuthConfig()),
+            params: { increase: increase },
+        })
     }
 
     @checkAuth(`/${loginUrl}`)
-    public static async deleteFromCart(dishId: string) {
-        return axios.delete(
-            `${apiUrl}${reqBasketUrl}/${reqDishesUrl}/${dishId}`,
-            await AuthConfig()
-        )
+    public static async deleteFromCart(dishId: string, increase = false) {
+        return axios.delete(`${apiUrl}${reqBasketUrl}/${reqDishesUrl}/${dishId}`, {
+            ...(await AuthConfig()),
+            params: { increase: increase },
+        })
     }
 }

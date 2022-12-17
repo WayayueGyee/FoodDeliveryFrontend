@@ -1,6 +1,5 @@
 import 'App.css'
 import NavBar from 'components/navbar/NavBar'
-import PaginationBar from 'components/pagination/PaginationBar'
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 

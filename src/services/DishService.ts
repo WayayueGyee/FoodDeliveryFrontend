@@ -2,7 +2,7 @@ import axios from 'axios'
 import { apiUrl, reqDishesUrl, reqDishUrl } from 'routes/RequestRoutes'
 
 export default class DishService {
-    public static getDishPage(params: { [k: string]: string }) {
+    public static getDishPage(params: { [k: string]: string | number | boolean }) {
         return axios.get(apiUrl + reqDishesUrl, { params: { ...params } })
     }
 

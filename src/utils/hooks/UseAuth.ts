@@ -14,13 +14,15 @@ const useAuth = () => {
 
         if (!isAuthorized) {
             TokenService.getToken().then((res) => {
-                console.log('TOKEN SUKA: ', res)
                 if (res) setAuthorized(true)
             })
         }
 
         return () => {
-            TokenEvents.unsubscribe(TokenEvents.events.expired, () => setAuthorized(false))
+            TokenEvents.unsubscribe(TokenEvents.events.expired, () => {
+                TokenService.saveToken(null)
+                setAuthorized(false)
+            })
             TokenEvents.unsubscribe(TokenEvents.events.updated, () => setAuthorized(true))
         }
     }, [])

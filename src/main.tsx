@@ -1,13 +1,24 @@
 import LoginPage, { loginAction } from 'components/auth/LoginPage'
 import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
-import CartPage, { cartLoader } from 'components/cart/CartPage'
+import { cartLoader } from 'components/cart/CartPage'
+import CartPageWrapper from 'components/cart/CartPageWrapper'
 import DishItemPage, { dishItemLoader } from 'components/dishes/DishItemPage'
 import { dishMenuLoader } from 'components/dishes/DishMenu'
+import { addToCartAction } from 'components/dishes/DishMenuItem'
 import DishMenuPage from 'components/dishes/DishMenuPage'
+import { logoutAction } from 'components/navbar/NavBar'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { cartUrl, dishesUrl, dishUrl, loginUrl, ordersUrl, registerUrl } from 'routes/Routes'
+import {
+  cartUrl,
+  dishesUrl,
+  dishUrl,
+  loginUrl,
+  logoutUrl,
+  ordersUrl,
+  registerUrl,
+} from 'routes/Routes'
 import App from './App'
 import ErrorPage from './ErrorPage'
 import './index.css'
@@ -25,15 +36,17 @@ const router = createBrowserRouter([
             path: dishesUrl,
             element: <DishMenuPage />,
             loader: dishMenuLoader,
+            action: addToCartAction,
           },
           {
             path: dishUrl,
             element: <DishItemPage />,
             loader: dishItemLoader,
+            action: addToCartAction,
           },
           {
             path: cartUrl,
-            element: <CartPage />,
+            element: <CartPageWrapper />,
             loader: cartLoader,
           },
           {
@@ -48,6 +61,10 @@ const router = createBrowserRouter([
             path: loginUrl,
             element: <LoginPage />,
             action: loginAction,
+          },
+          {
+            path: logoutUrl,
+            errorElement: <div>Error just occured!</div>,
           },
         ],
       },

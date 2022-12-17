@@ -3,6 +3,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import ProfileIcon from 'components/icons/ProfileIcon'
 import Dropdown from 'components/primitives/dropdown/Dropdown'
 import DropdownLink from 'components/primitives/dropdown/DropdownLink'
+import TokenEvents from 'events/TokenEvents'
+import { Form, redirect, useNavigate } from 'react-router-dom'
 import {
   cartUrl,
   dishesUrl,
@@ -12,6 +14,8 @@ import {
   profileGetUrl,
   registerUrl,
 } from 'routes/Routes'
+import AuthService from 'services/AuthService'
+import TokenService from 'services/TokenService'
 import useAuth from 'utils/hooks/UseAuth'
 import NavBarLink from './NavBarLink'
 
@@ -23,6 +27,14 @@ const items = [
 
 export default function NavBar() {
   const isAuthorized = useAuth()
+  const navigate = useNavigate()
+
+  const logout = async () => {
+    await AuthService.logout()
+    await TokenService.saveToken(null)
+    TokenEvents.dispatch(TokenEvents.events.expired, 'User logged out')
+    return navigate(dishesUrl)
+  }
 
   return (
     <header className="w-screen fixed z-50 top-0 left-0">
@@ -70,7 +82,9 @@ export default function NavBar() {
                         </Menu.Button>
                         <Dropdown>
                           <DropdownLink to={profileGetUrl}>Профиль</DropdownLink>
-                          <DropdownLink to={logoutUrl}>Выйти</DropdownLink>
+                          <DropdownLink to={logoutUrl} onClick={logout}>
+                            Выйти
+                          </DropdownLink>
                         </Dropdown>
                       </>
                     ) : (
