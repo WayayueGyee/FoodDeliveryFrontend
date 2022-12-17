@@ -13,11 +13,9 @@ const checkAuth = (redirectUrl?: string) => {
                         .apply(this, args)
                         .then((response: AxiosResponse<any, any>) => {
                             if (response.status !== HttpStatusCode.UNAUTHORIZED) {
-                                console.log('Status: ', response.status)
                                 return response
                             }
 
-                            console.log('RESPONSE: ', response)
                             TokenEvents.dispatch(TokenEvents.events.expired, 'Token expired')
 
                             if (redirectUrl) {

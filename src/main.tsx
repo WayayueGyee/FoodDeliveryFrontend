@@ -1,8 +1,10 @@
 import LoginPage, { loginAction } from 'components/auth/LoginPage'
 import RegistrationPage, { registrationAction } from 'components/auth/RegistrationPage'
-import CartPage, { cartLoader } from 'components/cart/CartPage'
+import { cartLoader } from 'components/cart/CartPage'
+import CartPageWrapper from 'components/cart/CartPageWrapper'
 import DishItemPage, { dishItemLoader } from 'components/dishes/DishItemPage'
 import { dishMenuLoader } from 'components/dishes/DishMenu'
+import { addToCartAction } from 'components/dishes/DishMenuItem'
 import DishMenuPage from 'components/dishes/DishMenuPage'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -25,15 +27,17 @@ const router = createBrowserRouter([
             path: dishesUrl,
             element: <DishMenuPage />,
             loader: dishMenuLoader,
+            action: addToCartAction,
           },
           {
             path: dishUrl,
             element: <DishItemPage />,
             loader: dishItemLoader,
+            action: addToCartAction,
           },
           {
             path: cartUrl,
-            element: <CartPage />,
+            element: <CartPageWrapper />,
             loader: cartLoader,
           },
           {
